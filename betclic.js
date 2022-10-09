@@ -1,5 +1,6 @@
 import * as puppeteer from 'puppeteer'
 import * as fs from 'fs'
+import { timingSafeEqual } from 'crypto'
 
 function extractItems() {
     const divAllMatch = document.querySelectorAll(".groupEvents.ng-star-inserted")
@@ -80,6 +81,9 @@ function formatResult(result){
             date: lines[1],
             nameTeam1: lines[2],
             nameTeam2: lines[4]
+        }
+        if(!matchInfo.nameTeam1 || !matchInfo.nameTeam2){
+            continue
         }
         matchInfo.quoteTeam1 = extractQuoteInfo(line, matchInfo, matchInfo.nameTeam1)
         matchInfo.quoteTeam2 = extractQuoteInfo(line, matchInfo, matchInfo.nameTeam2)

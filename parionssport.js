@@ -2,12 +2,15 @@ import * as puppeteer from 'puppeteer'
 import * as fs from 'fs'
 
 function extractItems() {
-    const divAllMatch = document.querySelector("#match-list")
-    divMatchs = divAllMatch.querySelectorAll("tr.m-s-0")
+    const tables = document.querySelectorAll(".cotes.sortable") 
 
     const matchTexts = []
-    for(let match of divMatchs){
-        matchTexts.push(match.innerText)
+    for(let table of tables){
+        let date = table.querySelector("th").innerText
+        let divsMatch = table.querySelectorAll("tr.m-s-0")
+        for(let div of divsMatch){
+            matchTexts.push(div.innerText + "#DATE:" + date)
+        }
     }
 
     return matchTexts
@@ -63,12 +66,13 @@ function formatResult(result){
         let teams = lines[1].split('-')
         let matchInfo = {
             match: teams[0] + " - " + teams[1],
-            date: lines[0],
+            time: lines[0],
             quoteTeam1: quotes[3],
             nameTeam1: teams[0],
             quoteTeam2: quotes[5],
             nameTeam2: teams[1],
-            quoteDraw: quotes[4]
+            quoteDraw: quotes[4],
+            date: line.split("#DATE:")[1]
         }
         toReturn.data.push(matchInfo)
     }

@@ -13,6 +13,7 @@ function extractItems() {
                 matchInfo.match = match.querySelector("div.cell-event > span").innerText
                 quotes = match.querySelector(".oddsbox").querySelectorAll(".oddc")
 
+                matchInfo.time = match.querySelector("span.datetime").innerText
                 matchInfo.date = divDate.innerText
                 matchInfo.quoteTeam1 = quotes[0].querySelector(".price").innerText.split('\n')[1]
                 matchInfo.nameTeam1 = quotes[0].querySelector(".longlabel-inner").innerText

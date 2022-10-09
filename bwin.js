@@ -81,6 +81,7 @@ function formatResult(result){
 }
 
 function moveToCorrectPage(){
+    console.log("Start")
     const elmts = document.querySelectorAll("ms-item.ng-star-inserted")
     let containerTarget = null
     for(let elmt of elmts){
@@ -100,7 +101,7 @@ function moveToCorrectPage(){
 }
 
 function clickOnCorrectSortButton(){
-    document.querySelector(".sort-toggle-button.right-btn.active").click()
+    document.querySelector(".sort-toggle-button.right-btn").click()
 }
 
 async function addCorrectSorting(page){

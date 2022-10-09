@@ -3,7 +3,6 @@ import * as fs from 'fs'
 
 function extractItems() {
     const teams = document.querySelectorAll(".ReactVirtualized__Grid__innerScrollContainer > div")
-    console.log(teams.length)
 
     teamsFiltered = []
     for(team of teams){
@@ -27,7 +26,7 @@ function mergeNoDuplicates(array1, array2){
     return array1
 }
 
-async function scrapeItems(page, extractItems, itemCount, scrollDelay = 1500) {
+async function scrapeItems(page, itemCount, scrollDelay = 1500) {
     let items = { site: "UNIBET", data: [] };
     let height = 0;
     while (items.data.length < itemCount) {
@@ -68,7 +67,7 @@ export async function scrap() {
         const page = await browser.newPage()
         await page.goto('https://www.winamax.fr/paris-sportifs/sports/1', {"waitUntil" : "networkidle0"})
 
-        const result = await await scrapeItems(page, extractItems, 100);      
+        const result = await await scrapeItems(page, 100);      
         const resultFormatted = formatResult(result)
         fs.writeFile( 
             './json/winamax.json', 
