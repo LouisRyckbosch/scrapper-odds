@@ -1,12 +1,36 @@
+12./ PMU DONE
 1./ Unibet Avis 2022 DONE
 2./ Winamax DONE
-3./ VBet >> in function russian
 4./ Bwin DONE 
 5./ Parions sport DONE
-6./ France paris >> pour les clodos
+
 7./ Betclic DONE
-8./ Netbet
+11./ zebet DONE
+3./ VBET done
+8./ Netbet PB
+
+6./ France paris >> pour les clodos
 9./ Barriere bet
 10./ Pokerstar
-11./ zebet
-12./ PMU
+
+breadcrumbEvent: 
+1
+iconSport: 
+1
+sportid: 
+13
+limit: 
+21
+offset: 
+20
+
+breadcrumbEvent: 
+1
+iconSport: 
+1
+sportid: 
+78
+limit: 
+21
+offset: 
+20

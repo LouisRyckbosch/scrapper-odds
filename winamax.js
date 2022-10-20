@@ -67,7 +67,7 @@ export async function scrap() {
         const page = await browser.newPage()
         await page.goto('https://www.winamax.fr/paris-sportifs/sports/1', {"waitUntil" : "networkidle0"})
 
-        const result = await await scrapeItems(page, 100);      
+        const result = await scrapeItems(page, 100);      
         const resultFormatted = formatResult(result)
         fs.writeFile( 
             './json/winamax.json', 
