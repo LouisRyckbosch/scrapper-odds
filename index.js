@@ -10,6 +10,7 @@ import * as pmu from './pmu.js'
 import * as zebet from './zebet.js'
 import * as vbet from './vbet.js'
 import * as netbet from './netbet.js'
+import * as pokerstars from './pokerstars.js'
 
 void (async () => {
     //await unibet.scrap()
@@ -20,5 +21,6 @@ void (async () => {
     //await pmu.scrap()
     //await zebet.scrap()
     //await vbet.scrap()
-    await netbet.scrap()
+    //await netbet.scrap()
+    pokerstars.scrap()
 })()

@@ -72,10 +72,15 @@ function getPositionTopBetFoot(){
 }
 
 function clickOnTopBet(){
-    document.querySelector(".nb-switcher-tab.uk-tab").querySelectorAll("a")[0].click()
+    const divs = document.querySelector(".nb-switcher-tab.uk-tab").querySelectorAll("a")
+    for(let div of divs){
+        if(div.innerText.includes("TOP")){
+            div.click()
+        }
+    }
 }
 
-function clickOnTopBetFootBall(){
+function clickOnTopBetSportFootBall(){
     document.querySelector("#homeFilterBySporttopBetsBlock").querySelectorAll("li")[1].click()
 }
 
@@ -83,16 +88,16 @@ function clickOnMoreElementDefault(){
     document.querySelector("#top-paris-block > * button.nb-load").click()
 }
 
+function setSportIdOnLoadButton(){
+    document.querySelector("#top-paris-block > * button.nb-load").setAttribute("data-sportid", 13)
+}
 
 async function rustineLoading(page){
     await page.evaluate(clickOnTopBet)
-    const pos = await page.evaluate(getPositionTopBetFoot)
-    await page.mouse.move(pos[0], pos[1], {steps: 100})
-    await page.hover(".nb-switcher-tab.uk-tab")
-    await page.mouse.click(pos[0], pos[1])
-    await page.mouse.wheel({ deltaY: 800 })
     await page.waitForTimeout(1000)
-    await page.evaluate(clickOnMoreElementDefault)
+    await page.evaluate(clickOnTopBetSportFootBall)
+    await page.waitForTimeout(1000)
+    await page.evaluate(setSportIdOnLoadButton)
 }
 
 export async function scrap() {
@@ -114,7 +119,7 @@ export async function scrap() {
             (err) => err ? console.error('Data not written', err) : console.log('NETBET datas collected')
         )
 
-        //browser.close()
+        browser.close()
     } catch (error) {
         console.log(error)
     }
