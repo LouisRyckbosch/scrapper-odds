@@ -2,14 +2,14 @@ import * as puppeteer from 'puppeteer'
 import * as fs from 'fs'
 
 function numberOfDays(){
-    return document.querySelector(".innerList.sidebarDailyList").querySelectorAll("a")
+    return document.querySelector(".innerList.sidebarDailyList").querySelectorAll("a").length
 }
 
 async function scrapeItems(page, itemCount){
-    const items = [] 
+    let items = [] 
     const days = await page.evaluate(numberOfDays)
     for(let i = 0; i < days; i++){
-        items.push(await scrapeItemsForDayIndex(page, i))
+        items = items.concat(await scrapeItemsForDayIndex(page, i))
         if(items.length > itemCount){
             break;
         }
@@ -22,26 +22,19 @@ function moveToDay(index){
 }
 
 function extractItems(index){
+    console.log("HELLO")
     const divAllMatch = document.querySelector(".market.h2h.in-play.active.soccer")
         .querySelectorAll(".eventView.groupedEventView.promoted-market.slide")
 
-    let notLiveDivs = []
-    for(let divMatchs of divAllMatch){
-        if(!divMatchs.classList.contains("inplay")){
-            notLiveDivs.push(divMatchs)
-        }
-    }
-
     matchTexts = []
-    for(let divMatchs of notLiveDivs){
-        matchs = divMatchs.querySelectorAll("a.cardEvent.ng-star-inserted")
-        for(let match of matchs){
-            matchTexts.push(
-                document.querySelector(".innerList.sidebarDailyList").querySelectorAll("a")[index].innerText + " " +
-                match.querySelector(".match-time").innerText + "#" +
-                match.querySelector(".event-schedule-participants-names.standard-formatted-event-display").innerText + "#" +
-                match.querySelector(".table-row.groupedEventViewCollection.standard-formatted-event-display").innerText
-            )
+    for (let match of divAllMatch) {
+        let date = document.querySelector(".innerList.sidebarDailyList").querySelectorAll("a")[index].innerText
+        let divTime = match.querySelector(".match-time")
+        let divTeams = match.querySelector(".event-schedule-participants-names.standard-formatted-event-display")
+        let divQuotes = match.querySelector(".table-row.groupedEventViewCollection.standard-formatted-event-display")
+        console.log(date)
+        if(divTime !== null && divTeams !== null && divQuotes !== null){
+            matchTexts.push(date + '#' + divTime.innerText + '#' + divTeams.innerText + '#' + divQuotes.innerText)
         }
     }
     return matchTexts
@@ -51,16 +44,19 @@ async function scrapeItemsForDayIndex(page, dayIndex) {
     let items = []
     let height = 0;
     await page.evaluate(moveToDay, dayIndex)
-    await page.waitForTimeout(2000)
-    while (true) {
-        let itemsPulled = await page.evaluate(extractItems);
-        if(itemsPulled.length == items.length){
+    await page.waitForTimeout(5000)
+    let i = 0;
+    while (i < 100) {
+        let itemsPulled = await page.evaluate(extractItems, dayIndex);
+        console.log("day " + dayIndex + " : " + itemsPulled.length + " | " + items.length)
+        if(itemsPulled.length == items.length && itemsPulled != 0){
             break;
         }
-        hello = items.concat(itemsPulled)
+        items = itemsPulled
         height = height + 2000;
-        await page.evaluate(`window.scrollTo({ top: ${height}, left: 0, behavior: 'smooth'});`)
+        await page.evaluate(`window.scrollTo({ top: ${height}, left: 0});`)
         await page.waitForTimeout(1000);
+        i = i++
     }
     return items;
 }
@@ -73,13 +69,13 @@ function formatResult(result){
             continue
         }
         let matchInfo = {
-            match: lines[0] + " - " + lines[1],
-            date: lines[0],
-            quoteTeam1: lines[2].split('\n')[0],
-            nameTeam1: lines[1].split('//')[0],
-            quoteTeam2: lines[2].split('\n')[2],
-            nameTeam2: lines[1].split('//')[1],
-            quoteDraw: lines[2].split('\n')[1]
+            match: lines[2],
+            date: lines[0] + " - " + lines[1],
+            quoteTeam1: lines[3].split('\n')[0],
+            nameTeam1: lines[2].split('\n')[0],
+            quoteTeam2: lines[3].split('\n')[2],
+            nameTeam2: lines[2].split('\n')[1],
+            quoteDraw: lines[3].split('\n')[1]
         }
         toReturn.data.push(matchInfo)
     }

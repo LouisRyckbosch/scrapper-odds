@@ -11,16 +11,20 @@ import * as zebet from './zebet.js'
 import * as vbet from './vbet.js'
 import * as netbet from './netbet.js'
 import * as pokerstars from './pokerstars.js'
+import * as barrierebet from './barrierebet.js'
+import * as franceparis from './franceparis.js'
 
 void (async () => {
-    //await unibet.scrap()
-    //await winamax.scrap()
-    //await bwin.scrap()
-    //await ps.scrap()
-    //await betclic.scrap()
-    //await pmu.scrap()
-    //await zebet.scrap()
-    //await vbet.scrap()
-    //await netbet.scrap()
-    pokerstars.scrap()
+    await unibet.scrap()
+    await winamax.scrap()
+    await bwin.scrap()
+    await ps.scrap()
+    await betclic.scrap()
+    await pmu.scrap()
+    await zebet.scrap()
+    await vbet.scrap()
+    await netbet.scrap()
+    await pokerstars.scrap()
+    await barrierebet.scrap()
+    await franceparis.scrap()
 })()
