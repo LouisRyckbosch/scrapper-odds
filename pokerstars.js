@@ -55,7 +55,7 @@ async function scrapeItemsForDayIndex(page, dayIndex) {
         items = itemsPulled
         height = height + 2000;
         await page.evaluate(`window.scrollTo({ top: ${height}, left: 0});`)
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2500);
         i = i++
     }
     return items;

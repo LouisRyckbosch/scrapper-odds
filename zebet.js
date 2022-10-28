@@ -7,7 +7,7 @@ function extractItems() {
     for(let matchDiv of matches){
         const date = matchDiv.querySelector(".bet-time.uk-flex-item-none.uk-margin-left").innerText
         const match = matchDiv.querySelector(".uk-text-truncate").innerText
-        const quotes = document.querySelector(".pari-1.uk-flex-item-auto").innerText.split('\n') 
+        const quotes = matchDiv.querySelector(".pari-1.uk-flex-item-auto").innerText.split('\n') 
         matchTexts.push(date + "#" + match + "#" + quotes[1] + "#" + quotes[3] + "#" + quotes[5])
     }
     return matchTexts
