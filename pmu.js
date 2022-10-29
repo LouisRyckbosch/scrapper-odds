@@ -5,26 +5,30 @@ function extractItems() {
     const divsAllMatch = document.querySelectorAll(".obet-event-list-container")
     const footballTable = divsAllMatch[1]
 
-    let divMatchesList = footballTable.querySelectorAll(".time_group")
-    const filtered = []
-    for(let divMatch of divMatchesList){
-        const time = divMatch.innerText.split('\n')[0]
-        if(time != " Dans moins d'1 heure" && time != "En ce moment"){
-            filtered.push(divMatch)
-        }
-    }
-    divMatchesList = filtered
-
-
     const matchTexts = []
-    for(let divMatches of divMatchesList){
-        const rows = divMatches.querySelectorAll(".row.trow")
-        for(let row of rows){
-            matchTexts.push(
-                divMatches.innerText.split('\n')[0] + "#" +
-                row.querySelector(".trow--event--name").innerText + "#" +
-                row.querySelector(".row.trow--odd.event-list-odds-list").innerText
-            )
+    const divsWithDates = footballTable.querySelectorAll(".table.shadow")
+    for (divsDate of divsWithDates) {
+        const date = divsDate.getAttribute("data-date")
+        let divMatchesList = divsDate.querySelectorAll(".time_group")
+        const filtered = []
+        for (let divMatch of divMatchesList) {
+            const time = divMatch.innerText.split('\n')[0]
+            if (time != " Dans moins d'1 heure" && time != "En ce moment") {
+                filtered.push(divMatch)
+            }
+        }
+        divMatchesList = filtered
+        
+        for (let divMatches of divMatchesList) {
+            const rows = divMatches.querySelectorAll(".row.trow")
+            for (let row of rows) {
+                matchTexts.push(
+                    divMatches.innerText.split('\n')[0] + "#" +
+                    row.querySelector(".trow--event--name").innerText + "#" +
+                    row.querySelector(".row.trow--odd.event-list-odds-list").innerText + "#" +
+                    date
+                )
+            }
         }
     }
 
@@ -86,8 +90,8 @@ function formatResult(result){
             continue
         }
         let matchInfo = {
-            match: lines[0] + " - " + lines[1],
-            date: lines[0],
+            match: lines[1],
+            date: lines[3] + "#" + lines[0],
             quoteTeam1: lines[2].split('\n')[0],
             nameTeam1: lines[1].split('//')[0],
             quoteTeam2: lines[2].split('\n')[2],
