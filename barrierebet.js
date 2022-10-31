@@ -6,6 +6,8 @@ function extractItems() {
 
     const matchTexts = []
     for(let divMatch of divsAllMatch){
+        divMatch.querySelector('.category-date')
+        divMatch.querySelectorAll('.team-name-layout2 ')
         matchTexts.push(divMatch.innerText)
     }
 
